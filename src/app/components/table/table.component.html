@@ -1,0 +1,105 @@
+<div class="overflow-x-auto">
+  <div
+    class="min-w-screen min-h-screen px-4 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+    <div class="w-full lg:w-5/6">
+
+      <!-- menu -->
+      <div class="bg-white p-4 rounded-md shadow-lg flex justify-between">
+         <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm transition-colors">
+              <button (click)="listarTareas()"
+                      class="{{tipo ? 'bg-gray-200':''}}  inline-block px-4 py-2 text-sm font-medium text-gray-700 focus:relative">
+                Todo
+              </button>
+
+              <button (click)="listarTareasTerminadas()"
+                      class="{{!tipo ? 'bg-gray-200':''}}  inline-block px-4 py-2 text-sm font-medium text-gray-700 focus:relative">
+                Terminado
+              </button>
+         </span>
+
+        <!-- agregar -->
+        <button (click)="show()"
+                class="py-2 px-6 bg-gray-800 text-sm rounded-md text-white transition-colors hover:bg-gray-600">Agregar Tarea
+        </button>
+      </div>
+
+      <!-- table -->
+      <div class="bg-white shadow-lg rounded-md my-6 h-96 overflow-scroll">
+        <table class="min-w-max w-full table-auto">
+          <thead>
+          <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <th *ng-repeat="let item of headers" class="py-3 px-6 text-left">
+              {{item}}
+            </th>
+          </tr>
+          </thead>
+
+          <tbody class="text-gray-600 text-sm font-light">
+
+          <!-- data -->
+          <tr *ngFor="let tarea of tareas" class="border-b border-gray-200">
+
+            <!-- titulo -->
+            <td class="py-3 px-6 text-left whitespace-nowrap">
+              <span class="font-medium">{{tarea.titulo}}</span>
+            </td>
+
+            <!-- Descripción -->
+            <td class="py-3 px-6 text-left whitespace-nowrap">
+              <span class="font-medium">{{tarea.descripcion}}</span>
+            </td>
+
+            <!-- fecha -->
+            <td class="py-3 px-6 text-left">
+              <span class="font-medium">{{tarea.fechacreacion.split('T')[0]}}</span>
+            </td>
+
+            <!-- estado -->
+            <td>
+              <select #status (change)="actualizarEstado(tarea.id, Number(status.value))"
+                      class="bg-gray-100 py-2 pl-2 pr-4 rounded-md outline-none">
+                <option disabled selected>Seleccione...</option>
+                <option *ngFor="let estado of estados" value="{{estado.id}}"
+                        [selected]="estado.id === tarea.estado_id"
+                >{{estado.nombre}}</option>
+              </select>
+            </td>
+
+            <!-- Eliminar -->
+            <td class="py-3 px-6 text-left">
+              <button
+                (click)="eliminarTarea(tarea.id)"
+                class="py-2 px-4 bg-red-500 rounded-md text-white hover:bg-gray-800 transition-colors">Eliminar
+              </button>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- cont tareas -->
+      <div class="absolute bg-white rounded-md shadow-lg px-4 py-2">
+        <span class="text-gray-600">Tareas: {{tareas.length}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- alert -->
+<ng-container *ngIf="alert">
+  <div
+    class="absolute transition-all top-24 md:w-1/3 inset-x-0 m-auto text-center flex p-4 text-md text-gray-800 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600"
+    role="alert">
+    <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"
+         xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+            clip-rule="evenodd"></path>
+    </svg>
+    <span class="sr-only">Notificación</span>
+    <div>
+      {{messageAlert}}
+    </div>
+  </div>
+</ng-container>

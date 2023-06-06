@@ -1,0 +1,83 @@
+<app-modal #modalComponent>
+  <form class="w-full max-w-lg" novalidate [formGroup]="tareaForm" (submit)="submit()">
+    <h1 class="py-4 text-gray-700 text-xl font-bold">Formulario</h1>
+
+    <div class="flex flex-wrap -mx-3 mb-6">
+
+      <!-- Titulo -->
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-sm mb-2">
+          Título
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          type="text" placeholder="Título tarea" formControlName="titulo"/>
+
+        <!-- Error -->
+        <p *ngIf="tareaForm.get('titulo')?.hasError('required')">
+          <small class="text-red-500">Este campo es requerido</small>
+        </p>
+      </div>
+
+      <!-- Descripción -->
+      <div class="w-full md:w-1/2 px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-sm mb-2">
+          Descripción
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          type="text" placeholder="Descripción tarea" formControlName="descripcion"/>
+
+        <!-- Error -->
+        <p *ngIf="tareaForm.get('descripcion')?.hasError('required')">
+          <small class="text-red-500">Este campo es requerido</small>
+        </p>
+      </div>
+    </div>
+
+    <!-- Estado -->
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-sm mb-2">
+          Estado
+        </label>
+
+        <select
+          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          formControlName="estado">
+          <option disabled selected>Seleccione...</option>
+          <option *ngFor="let estado of estados" [value]="estado.id">{{estado.nombre}}</option>
+        </select>
+
+        <!-- Error -->
+        <p *ngIf="tareaForm.get('estado')?.hasError('required')">
+          <small class="text-red-500">Este campo es requerido</small>
+        </p>
+      </div>
+    </div>
+
+    <!-- submit -->
+    <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+  </form>
+</app-modal>
+
+<ng-template #toolbar>
+  <div class="py-2 flex justify-end">
+    <button
+      (click)="close()"
+      type="button"
+      class="rounded-md shadow-md sm:tracking-wider mx-2 border border-gray-300 px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 "
+    >
+      Cerrar
+    </button>
+
+    <button
+      type="submit"
+      class="cursor-pointer disabled:cursor-no-drop disabled:bg-gray-400 bg-gray-700 hover:bg-gray-800 text-white transition-colors font-bold rounded-md shadow-lg sm:tracking-wider py-2 px-4"
+      [disabled]="tareaForm.invalid"
+    >
+      Agregar
+    </button
+    >
+  </div>
+</ng-template>
