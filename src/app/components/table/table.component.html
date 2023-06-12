@@ -28,7 +28,7 @@
         <table class="min-w-max w-full table-auto">
           <thead>
           <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-            <th *ng-repeat="let item of headers" class="py-3 px-6 text-left">
+            <th *ngFor="let item of headers" class="py-3 px-6 text-left">
               {{item}}
             </th>
           </tr>
